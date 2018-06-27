@@ -1,2 +1,2 @@
 # NetCore-Apis
-      Helper to consume rest API set up on .net core. 
+      Simplify the entire process consuming your rest Apis to using them on your UI
