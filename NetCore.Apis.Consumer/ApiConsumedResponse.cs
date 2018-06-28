@@ -12,6 +12,9 @@ namespace NetCore.Apis.Consumer
     public class ApiConsumedResponse
     {
 
+        public bool IsSuccessful => Response.IsSuccessStatusCode;
+
+        public bool IsBadRequest => Response.StatusCode == HttpStatusCode.BadRequest;
 
         public HttpResponseMessage Response { get; private set; }
 
@@ -36,6 +39,8 @@ namespace NetCore.Apis.Consumer
 
         public static implicit operator ApiConsumedResponse(HttpResponseMessage response)
             => new ApiConsumedResponse(response);
+
+        public static implicit operator string(ApiConsumedResponse response) => response.TextResponse;
 
         internal virtual void Deserialize(string text) { }
 

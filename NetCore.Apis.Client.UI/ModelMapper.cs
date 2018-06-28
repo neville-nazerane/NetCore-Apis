@@ -1,9 +1,12 @@
-﻿using System;
+﻿using NetCore.Apis.Consumer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NetCore.Apis.Client.UI
 {
@@ -50,6 +53,37 @@ namespace NetCore.Apis.Client.UI
             }
             else throw new InvalidOperationException("Invalid lamda provided. Property is expected.");
         }
+
+        public async Task<TResult> SubmitAsync<TResult>(
+                Func<TModel, Task<ApiConsumedResponse<TResult>>> call,
+                Action<TResult> onSuccess,
+                Action<Dictionary<string, string[]>> onBadRequest,
+                Action<ApiConsumedResponse<TResult>> onError
+            )
+        {
+            var response = await call(Model);
+            if (response.Response.IsSuccessStatusCode)
+                onSuccess(response);
+            else if (response.StatusCode == HttpStatusCode.BadRequest) onBadRequest(response.Errors);
+            else onError(response);
+            return response;
+        }
+
+        public async Task<string> SubmitAsync(
+                Func<TModel, Task<ApiConsumedResponse>> call,
+                Action<string> onSuccess,
+                Action<Dictionary<string, string[]>> onBadRequest,
+                Action<ApiConsumedResponse> onError
+            )
+        {
+            var response = await call(Model);
+            if (response.Response.IsSuccessStatusCode)
+                onSuccess(response.TextResponse);
+            else if (response.StatusCode == HttpStatusCode.BadRequest) onBadRequest(response.Errors);
+            else onError(response);
+            return response.TextResponse;
+        }
+
 
 
         class MappedContext
