@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{12FAF704-9EC2-468C-AFE6-50BCE951ABB8}</ProjectGuid>
+    <ProjectGuid>{CA0319D4-9E71-4C85-9D69-3C8D9680E562}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MobileUI.UWP</RootNamespace>
@@ -146,7 +146,12 @@
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.561731" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1"/>
   </ItemGroup>
-  <Import Project="..\MobileUI\MobileUI.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\MobileUI\MobileUI.csproj">
+      <Project>{89DEC987-06CF-49D9-8DAC-4DEFE216E142}</Project>
+      <Name>MobileUI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

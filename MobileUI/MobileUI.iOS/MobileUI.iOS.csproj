@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C8D3AA4D-3AC2-4D31-845E-7AC3A5F1992D}</ProjectGuid>
+    <ProjectGuid>{8C741C9D-B788-4BA2-A92F-F9FEE43064F8}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
     <OutputType>Exe</OutputType>
@@ -150,5 +150,10 @@
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.561731" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\MobileUI\MobileUI.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\MobileUI\MobileUI.csproj">
+      <Project>{89DEC987-06CF-49D9-8DAC-4DEFE216E142}</Project>
+      <Name>MobileUI</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
