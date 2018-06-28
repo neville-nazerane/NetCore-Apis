@@ -13,46 +13,50 @@ namespace NetCore.Apis.Client.UI
 
         //private readonly List<IInputMapper> mappers;
         private readonly Dictionary<string,PropertyInfo> properties;
-        private readonly List<MappedData> mappedCollection;
+        private readonly List<MappedContext> mappedCollection;
 
         public ModelMapper()
         {
             //mappers = new List<IInputMapper>();
             properties = typeof(TModel).GetProperties().ToDictionary(p => p.Name);
-            mappedCollection = new List<MappedData>();
+            mappedCollection = new List<MappedContext>();
         }
 
         TModel _Model;
         public TModel Model
         {
-            get => _Model ?? (_Model = GenerateModel());
+            get {
+                var model = _Model ?? new TModel();
+                foreach (var map in mappedCollection) map.Set(model);
+                return model;
+            }
+            set {
+                _Model = value;
+                foreach (var map in mappedCollection) map.GetFrom(value);
+            }
+        }
+
+        public void Bind<T>(IInputMapper<T> inputMapper, Expression<Func<TModel, T>> lamda)
+        {
+            if (lamda.Body is MemberExpression mem)
+            {
+                var member = mem.Member;
+                var info = properties[member.Name];
+                mappedCollection.Add(new MappedContext
+                {
+                    GetFrom = obj => inputMapper.MappedData = (T)info.GetValue(obj),
+                    Set = obj => info.SetValue(obj, inputMapper.MappedData)
+                });
+            }
+            else throw new InvalidOperationException("Invalid lamda provided. Property is expected.");
+        }
+
+
+        class MappedContext
+        {
+            internal Action<object> Set { get; set; }
             
-        }
-
-        public void Bind<T>(IInputMapper inputMapper, Expression<Func<TModel, T>> lamda)
-        {
-
-            mappedCollection.Add(new MappedData {
-                
-            });
-        }
-
-        TModel GenerateModel()
-        {
-            var model = new TModel();
-
-            return model;
-        }
-
-        class MappedData
-        {
-            internal PropertyInfo Info;
-
-            internal IInputMapper Mapper;
-
-            internal void Set(object obj) => Info.SetValue(obj, Mapper.MappedData);
-
-            internal void GetFrom(object obj) => Mapper.MappedData = Info.GetValue(obj);
+            internal Action<object> GetFrom { get; set; }
 
         }
 

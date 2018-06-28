@@ -5,19 +5,19 @@ using System.Text;
 namespace NetCore.Apis.Client.UI
 {
 
-    public interface IInputMapper
+    public interface IInputMapper<T>
     {
 
-        object MappedData { get; set; }
+        T MappedData { get; set; }
 
 
     }
 
-    public interface IInputMapper<TComponent> : IInputMapper
-    {
+    //public interface IInputMapper<TComponent> : IInputMapper
+    //{
 
-        TComponent Component { get; }
+    //    TComponent Component { get; }
         
-    }
+    //}
 
 }
