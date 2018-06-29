@@ -14,7 +14,7 @@ namespace TestWebApi.Controllers
     {
 
         [HttpPost]
-        public int Post(Employee employee) => 50;
+        public int Post(Employee employee) => 800;
 
         [HttpGet("{id}")]
         public Employee Get(int id) => new Employee { FirstName = $"For {id}", LastName = "Lasted", Age = 5 };

@@ -39,7 +39,7 @@ namespace NetCore.Apis.Client.UI
             }
         }
 
-        public void Bind<T>(IInputMapper<T> inputMapper, Expression<Func<TModel, T>> lamda)
+        public void Bind<T>(IComponentMapper<T> inputMapper, Expression<Func<TModel, T>> lamda)
         {
             if (lamda.Body is MemberExpression mem)
             {
@@ -47,51 +47,61 @@ namespace NetCore.Apis.Client.UI
                 var info = properties[member.Name];
                 mappedCollection.Add(new MappedContext
                 {
+                    Name = member.Name,
                     GetFrom = obj => inputMapper.MappedData = (T)info.GetValue(obj),
-                    Set = obj => info.SetValue(obj, inputMapper.MappedData)
+                    Set = obj => info.SetValue(obj, inputMapper.MappedData),
+                    Mapper = inputMapper
                 });
             }
             else throw new InvalidOperationException("Invalid lamda provided. Property is expected.");
         }
 
-        public async Task<TResult> SubmitAsync<TResult>(
+        public async Task<TResult> SubmitAsync<TResult> (
                 Func<TModel, Task<ApiConsumedResponse<TResult>>> call,
-                Action<TResult> onSuccess,
+                Action<TResult> onSuccess = null,
+                Action<Dictionary<string, string[]>> onBadRequest = null,
+                Action<ApiConsumedResponse<TResult>> onError = null
+            ) => await DoSubmitAsync(call, r => onSuccess?.Invoke(r), onBadRequest, onError);
+
+        public async Task<string> SubmitAsync (
+                Func<TModel, Task<ApiConsumedResponse>> call,
+                Action<string> onSuccess = null,
+                Action<Dictionary<string, string[]>> onBadRequest = null,
+                Action<ApiConsumedResponse> onError = null
+            ) => await DoSubmitAsync(call, r => onSuccess?.Invoke(r), onBadRequest, onError);
+
+        async Task<TResponse> DoSubmitAsync<TResponse>(
+                Func<TModel, Task<TResponse>> call,
+                Action<TResponse> onSuccess,
                 Action<Dictionary<string, string[]>> onBadRequest,
-                Action<ApiConsumedResponse<TResult>> onError
+                Action<TResponse> onError
             )
+            where TResponse : ApiConsumedResponse
         {
             var response = await call(Model);
-            if (response.Response.IsSuccessStatusCode)
-                onSuccess(response);
-            else if (response.StatusCode == HttpStatusCode.BadRequest) onBadRequest(response.Errors);
-            else onError(response);
+            foreach (var map in mappedCollection) map.Mapper.ClearErrors();
+            if (response.IsSuccessful) onSuccess?.Invoke(response);
+            else if (response.IsBadRequest)
+            {
+                foreach (var map in mappedCollection)
+                    if (response.Errors.ContainsKey(map.Name))
+                        map.Mapper.SetErrors(response.Errors[map.Name]);
+                onBadRequest?.Invoke(response.Errors);
+            }
+            else onError?.Invoke(response);
             return response;
         }
-
-        public async Task<string> SubmitAsync(
-                Func<TModel, Task<ApiConsumedResponse>> call,
-                Action<string> onSuccess,
-                Action<Dictionary<string, string[]>> onBadRequest,
-                Action<ApiConsumedResponse> onError
-            )
-        {
-            var response = await call(Model);
-            if (response.Response.IsSuccessStatusCode)
-                onSuccess(response.TextResponse);
-            else if (response.StatusCode == HttpStatusCode.BadRequest) onBadRequest(response.Errors);
-            else onError(response);
-            return response.TextResponse;
-        }
-
-
-
+        
         class MappedContext
         {
-            internal Action<object> Set { get; set; }
-            
-            internal Action<object> GetFrom { get; set; }
+            public string Name { get; set; }
 
+            public Action<object> Set { get; set; }
+
+            public Action<object> GetFrom { get; set; }
+
+            public IComponentMappper Mapper { get; set; }
+             
         }
 
     }

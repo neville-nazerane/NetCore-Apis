@@ -6,9 +6,10 @@ using Xamarin.Forms;
 
 namespace MobileUI.Mapping
 {
-    class EntryMapping : IInputMapper<string>
+    class EntryMapping : IComponentMapper<string>
     {
         private readonly Entry entry;
+        private readonly StackLayout errorContainer;
 
         public string MappedData
         {
@@ -16,7 +17,21 @@ namespace MobileUI.Mapping
             set => entry.Text = value;
         }
 
-        public EntryMapping(Entry entry) => this.entry = entry;
+        public EntryMapping(Entry entry, StackLayout errorContainer)
+        {
+            this.entry = entry;
+            this.errorContainer = errorContainer;
+        }
 
+        public void SetErrors(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
+                errorContainer.Children.Add(new Label {
+                    TextColor = Color.Red,
+                    Text = error
+                });
+        }
+
+        public void ClearErrors() => errorContainer.Children.Clear();
     }
 }

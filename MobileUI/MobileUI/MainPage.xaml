@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MobileUI"
              x:Class="MobileUI.MainPage">
 
     <StackLayout>
@@ -9,7 +8,9 @@
 
 
         <Entry x:Name="firstName" Placeholder="Type something here" />
+        <StackLayout x:Name="fnameErr"/>
         <Entry x:Name="lname" Placeholder="Type something here" />
+        <StackLayout x:Name="lnameErr"/>
         <Label x:Name="display" />
         <Button x:Name="submitBtn" Text="Ok" />
 

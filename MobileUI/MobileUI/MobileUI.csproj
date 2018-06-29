@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Constants\Constants.csproj" />
     <ProjectReference Include="..\..\Models\Models.csproj" />
     <ProjectReference Include="..\..\NetCore.Apis.Client.UI\NetCore.Apis.Client.UI.csproj" />
   </ItemGroup>
