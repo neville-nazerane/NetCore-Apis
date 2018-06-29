@@ -11,6 +11,8 @@
         <StackLayout x:Name="fnameErr"/>
         <Entry x:Name="lname" Placeholder="Type something here" />
         <StackLayout x:Name="lnameErr"/>
+        <Entry x:Name="age" Placeholder="Type something here" />
+        <StackLayout x:Name="ageErr"/>
         <Label x:Name="display" />
         <Button x:Name="submitBtn" Text="Ok" />
 

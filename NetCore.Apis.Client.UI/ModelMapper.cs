@@ -39,7 +39,7 @@ namespace NetCore.Apis.Client.UI
             }
         }
 
-        public void Bind<T>(IComponentMapper<T> inputMapper, Expression<Func<TModel, T>> lamda)
+        public void Bind<T>(Expression<Func<TModel, T>> lamda, IComponentMapper<T> inputMapper)
         {
             if (lamda.Body is MemberExpression mem)
             {
@@ -100,7 +100,7 @@ namespace NetCore.Apis.Client.UI
 
             public Action<object> GetFrom { get; set; }
 
-            public IComponentMappper Mapper { get; set; }
+            public IComponentMapper Mapper { get; set; }
              
         }
 

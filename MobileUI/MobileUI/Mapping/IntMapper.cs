@@ -6,21 +6,19 @@ using Xamarin.Forms;
 
 namespace MobileUI.Mapping
 {
-    class EntryMapping : StackErrorMapping, IComponentMapper<string>
+    class IntMapper : StackErrorMapping, IComponentMapper<int>
     {
         private readonly Entry entry;
 
-        public string MappedData
-        {
-            get => entry.Text;
-            set => entry.Text = value;
-        }
-
-        public EntryMapping(Entry entry, StackLayout errorContainer)
+        public IntMapper(Entry entry, StackLayout errorContainer) 
             : base(errorContainer)
         {
             this.entry = entry;
         }
 
+        public int MappedData {
+                get => Int32.Parse(entry.Text);
+                set => entry.Text = value.ToString();
+        }
     }
 }

@@ -18,9 +18,10 @@ namespace MobileUI
 			InitializeComponent();
 
             var mapper = new ModelMapper<Employee>();
-            mapper.Bind(new EntryMapping(firstName, fnameErr), e => e.FirstName);
-            mapper.Bind(new EntryMapping(lname, lnameErr), e => e.LastName);
-
+            mapper.Bind(e => e.FirstName, firstName, fnameErr);
+            mapper.Bind(e => e.LastName, lname, lnameErr);
+            mapper.Bind(e => e.Age, age, ageErr);
+            
             submitBtn.Clicked += async delegate {
 
                 await mapper.SubmitAsync(e => EmployeeAccess.Post(e), s => display.Text = s);
