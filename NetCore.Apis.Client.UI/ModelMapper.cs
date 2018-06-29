@@ -77,10 +77,10 @@ namespace NetCore.Apis.Client.UI
             )
             where TResponse : ApiConsumedResponse
         {
+            foreach (var map in mappedCollection) map.Mapper.ClearErrors();
             if (TryGetModel(out TModel model))
             {
                 var response = await call(model);
-                foreach (var map in mappedCollection) map.Mapper.ClearErrors();
                 if (response.IsSuccessful) onSuccess?.Invoke(response);
                 else if (response.IsBadRequest)
                 {
