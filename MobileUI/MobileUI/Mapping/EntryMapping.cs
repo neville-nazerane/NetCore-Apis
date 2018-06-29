@@ -22,5 +22,6 @@ namespace MobileUI.Mapping
             this.entry = entry;
         }
 
+        public override bool Validate(List<string> errors) => true;
     }
 }

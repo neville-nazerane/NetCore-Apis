@@ -40,7 +40,7 @@ namespace NetCore.Apis.Consumer
         public static implicit operator ApiConsumedResponse(HttpResponseMessage response)
             => new ApiConsumedResponse(response);
 
-        public static implicit operator string(ApiConsumedResponse response) => response.TextResponse;
+        public static implicit operator string(ApiConsumedResponse response) => response?.TextResponse;
 
         internal virtual void Deserialize(string text) { }
 
@@ -55,7 +55,8 @@ namespace NetCore.Apis.Consumer
 
         public TModel Data { get; private set; }
 
-        public static implicit operator TModel(ApiConsumedResponse<TModel> model) => model.Data;
+        public static implicit operator TModel(ApiConsumedResponse<TModel> model) 
+                => model == null ? default(TModel) : model.Data;
 
         public static implicit operator ApiConsumedResponse<TModel>(HttpResponseMessage response) => new ApiConsumedResponse<TModel>(response);
 

@@ -26,5 +26,7 @@ namespace MobileUI.Mapping
         }
 
         public void ClearErrors() => errorContainer.Children.Clear();
+
+        public abstract bool Validate(List<string> errors);
     }
 }

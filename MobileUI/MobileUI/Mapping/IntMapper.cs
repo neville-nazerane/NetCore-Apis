@@ -16,9 +16,22 @@ namespace MobileUI.Mapping
             this.entry = entry;
         }
 
-        public int MappedData {
-                get => Int32.Parse(entry.Text);
-                set => entry.Text = value.ToString();
+        public int MappedData
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(entry.Text)) return 0;
+                return Int32.Parse(entry.Text);
+            }
+
+            set => entry.Text = value.ToString();
+        }
+
+        public override bool Validate(List<string> errors)
+        {
+            if (Int32.TryParse(entry.Text, out int i)) return true;
+            errors.Add("Not in the right number format");
+            return false;
         }
     }
 }

@@ -19,6 +19,8 @@ namespace NetCore.Apis.Client.UI
 
         void ClearErrors();
 
+        bool Validate(List<string> errors);
+
     }
 
 }
