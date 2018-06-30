@@ -21,7 +21,8 @@ namespace MobileUI
             mapper.Bind(e => e.FirstName, firstName, fnameErr);
             mapper.Bind(e => e.LastName, lname, lnameErr);
             mapper.Bind(e => e.Age, age, ageErr);
-            
+            mapper.Bind(e => e.ToBeFiredOn, fireDate, fireTime, dateErr);
+
             submitBtn.Clicked += async delegate {
 
                 await mapper.SubmitAsync(e => EmployeeAccess.Post(e), s => display.Text = s);

@@ -13,6 +13,9 @@
         <StackLayout x:Name="lnameErr"/>
         <Entry x:Name="age" Placeholder="Age" />
         <StackLayout x:Name="ageErr"/>
+        <DatePicker x:Name="fireDate" />
+        <TimePicker x:Name="fireTime" />
+        <StackLayout x:Name="dateErr"/>
         <Label x:Name="display" />
         <Button x:Name="submitBtn" Text="Ok" />
         <Button x:Name="showBtn" Text="Show" />

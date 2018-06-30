@@ -21,6 +21,7 @@ namespace NetCore.Apis.Client.UI
         {
             properties = typeof(TModel).GetProperties().ToDictionary(p => p.Name);
             mappedCollection = new List<MappedContext>();
+            _Model = new TModel();
         }
 
         TModel _Model;
@@ -49,7 +50,7 @@ namespace NetCore.Apis.Client.UI
         public bool TryGetModel(out TModel model, bool displayErrors = true)
         {
             bool isValid = true;
-            model = _Model ?? new TModel();
+            model = _Model;
             foreach (var map in mappedCollection)
             {
                 var errors = new List<string>();
