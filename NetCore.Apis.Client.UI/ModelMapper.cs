@@ -28,10 +28,16 @@ namespace NetCore.Apis.Client.UI
         TModel _Model;
         public TModel Model
         {
-            set {
+            set
+            {
                 _Model = value;
                 foreach (var map in mappedCollection) map.GetFrom(value);
             }
+        }
+
+        public void ClearErrors()
+        {
+            foreach (var map in mappedCollection) map.Mapper.ClearErrors();
         }
 
         public bool TryGetModel(out TModel model)
@@ -61,7 +67,7 @@ namespace NetCore.Apis.Client.UI
                 mappedCollection.Add(new MappedContext
                 {
                     Name = member.Name,
-                    GetFrom = obj => inputMapper.MappedData = (T)info.GetValue(obj),
+                    GetFrom = obj => inputMapper.MappedData = (T) info.GetValue(obj),
                     Set = obj => info.SetValue(obj, inputMapper.MappedData),
                     Mapper = inputMapper
                 });
@@ -69,7 +75,7 @@ namespace NetCore.Apis.Client.UI
             else throw new InvalidOperationException("Invalid lamda provided. Property is expected.");
         }
 
-        async Task<TResponse> DoSubmitAsync<TResponse>(
+        async Task<TResponse> DoSubmitAsync<TResponse> (
                 Func<TModel, Task<TResponse>> call,
                 Action<TResponse> onSuccess,
                 Action<Dictionary<string, string[]>> onBadRequest,
@@ -77,7 +83,7 @@ namespace NetCore.Apis.Client.UI
             )
             where TResponse : ApiConsumedResponse
         {
-            foreach (var map in mappedCollection) map.Mapper.ClearErrors();
+            ClearErrors();
             if (TryGetModel(out TModel model))
             {
                 var response = await call(model);
@@ -95,20 +101,19 @@ namespace NetCore.Apis.Client.UI
             else return null;
         }
         
-        public async Task<TResult> SubmitAsync<TResult>(
+        public async Task<TResult> SubmitAsync<TResult> (
                 Func<TModel, Task<ApiConsumedResponse<TResult>>> call,
                 Action<TResult> onSuccess = null,
                 Action<Dictionary<string, string[]>> onBadRequest = null,
                 Action<ApiConsumedResponse<TResult>> onError = null
             ) => await DoSubmitAsync(call, r => onSuccess?.Invoke(r), onBadRequest, onError);
 
-        public async Task<string> SubmitAsync(
+        public async Task<string> SubmitAsync (
                 Func<TModel, Task<ApiConsumedResponse>> call,
                 Action<string> onSuccess = null,
                 Action<Dictionary<string, string[]>> onBadRequest = null,
                 Action<ApiConsumedResponse> onError = null
             ) => await DoSubmitAsync(call, r => onSuccess?.Invoke(r), onBadRequest, onError);
-
 
         class MappedContext
         {

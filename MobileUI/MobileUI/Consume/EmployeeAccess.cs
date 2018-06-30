@@ -15,5 +15,8 @@ namespace MobileUI.Consume
         public static async Task<ApiConsumedResponse> Post(Employee employee)
             => await ConsumerDefault.Consumer.PostAsync(path, employee);
 
+        public static async Task<ApiConsumedResponse<Employee>> Get(int id)
+            => await ConsumerDefault.Consumer.GetAsync<Employee>($"{path}/{id}");
+
     }
 }

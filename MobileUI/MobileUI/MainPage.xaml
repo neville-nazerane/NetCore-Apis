@@ -7,14 +7,15 @@
         <!-- Place new controls here -->
 
 
-        <Entry x:Name="firstName" Placeholder="Type something here" />
+        <Entry x:Name="firstName" Placeholder="First Name" />
         <StackLayout x:Name="fnameErr"/>
-        <Entry x:Name="lname" Placeholder="Type something here" />
+        <Entry x:Name="lname" Placeholder="Last Name" />
         <StackLayout x:Name="lnameErr"/>
-        <Entry x:Name="age" Placeholder="Type something here" />
+        <Entry x:Name="age" Placeholder="Age" />
         <StackLayout x:Name="ageErr"/>
         <Label x:Name="display" />
         <Button x:Name="submitBtn" Text="Ok" />
+        <Button x:Name="showBtn" Text="Show" />
 
     </StackLayout>
 

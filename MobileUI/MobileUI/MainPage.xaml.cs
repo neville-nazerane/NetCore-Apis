@@ -30,6 +30,14 @@ namespace MobileUI
                 //mapper.Model = new Employee { FirstName = "Try", LastName = "Another", Age = 55 };
             };
 
+            showBtn.Clicked += async delegate {
+                mapper.TryGetModel(out Employee emp);
+                var employee = await EmployeeAccess.Get(emp.Age);
+                mapper.ClearErrors();
+                if (employee.IsSuccessful) mapper.Model = employee;
+                else await DisplayAlert("Nop", $"Something failed with the error: {employee.StatusCode}", "Oh damit!!!");
+            };
+
 		}
 	}
 }
