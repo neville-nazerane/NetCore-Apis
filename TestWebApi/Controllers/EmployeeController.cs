@@ -23,7 +23,7 @@ namespace TestWebApi.Controllers
         public string Post(Employee e)
             => $"Fname: {e.FirstName}, Lname: {e.LastName}, Age: {e.Age}, fire: {e.ToBeFiredOn}";
 
-        [HttpGet("a/{id}")]
+        [HttpGet("{id}")]
         public Employee Get(int id) => new Employee { FirstName = $"Made in {id}", LastName = "Blasted", Age = 25 };
 
 

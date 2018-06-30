@@ -18,7 +18,7 @@ namespace MobileUI.Mapping
         public static void Bind<TModel>(this ModelMapper<TModel> mapper, Expression<Func<TModel, int>> lamda,
                              Entry entry, StackLayout errors)
             where TModel : class, new()
-            => mapper.Bind(lamda, new IntMapper(entry, errors));
+            => mapper.Bind(lamda, new Inti(entry, errors));
 
         public static void Bind<TModel>(this ModelMapper<TModel> mapper, Expression<Func<TModel, DateTime>> lamda,
                      DatePicker date, StackLayout errors)

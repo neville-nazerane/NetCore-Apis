@@ -24,16 +24,17 @@ namespace MobileUI
             mapper.Bind(e => e.ToBeFiredOn, fireDate, fireTime, dateErr);
 
             submitBtn.Clicked += async delegate {
-
                 await mapper.SubmitAsync(e => EmployeeAccess.Post(e), s => display.Text = s);
             };
 
             showBtn.Clicked += async delegate {
-                mapper.TryGetModel(out Employee emp);
-                var employee = await EmployeeAccess.Get(emp.Age);
-                mapper.ClearErrors();
-                if (employee.IsSuccessful) mapper.SetModel(employee);
-                else await DisplayAlert("Nop", $"Something failed with the error: {employee.StatusCode}", "Oh damit!!!");
+                if (mapper.TryGetModel(out Employee emp))
+                {
+                    var employee = await EmployeeAccess.Get(emp.Age);
+                    mapper.ClearErrors();
+                    if (employee.IsSuccessful) mapper.SetModel(employee);
+                    else await DisplayAlert("Nop", $"Something failed with the error: {employee.StatusCode}", "Oh damit!!!");
+                }
             };
 
 		}
