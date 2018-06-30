@@ -40,7 +40,18 @@ namespace NetCore.Apis.Client.UI
             foreach (var map in mappedCollection) map.Mapper.ClearErrors();
         }
 
-        public bool TryGetModel(out TModel model)
+        /// <summary>
+        /// 
+        /// Tries to get all properties of the model from the UI.
+        /// If fails, prints the errors on the UI
+        /// 
+        /// Note that even on fail, all successful properties will 
+        /// stil be returned by the model object.
+        /// 
+        /// </summary>
+        /// <param name="model">Model object with all properties without errors</param>
+        /// <returns>true if all validations passed</returns>
+        public bool TryGetModel(out TModel model, bool displayErrors = true)
         {
             bool isValid = true;
             model = _Model ?? new TModel();
@@ -50,8 +61,11 @@ namespace NetCore.Apis.Client.UI
                 if (map.Mapper.Validate(errors)) map.Set(model);
                 else
                 {
-                    map.Mapper.ClearErrors();
-                    map.Mapper.SetErrors(errors);
+                    if (displayErrors)
+                    {
+                        map.Mapper.ClearErrors();
+                        map.Mapper.SetErrors(errors);
+                    }
                     isValid = false;
                 }
             }

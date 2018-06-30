@@ -25,9 +25,6 @@ namespace MobileUI
             submitBtn.Clicked += async delegate {
 
                 await mapper.SubmitAsync(e => EmployeeAccess.Post(e), s => display.Text = s);
-
-                //display.Text = $"First name: {m.FirstName} and last name: {m.LastName} with age {m.Age}";
-                //mapper.Model = new Employee { FirstName = "Try", LastName = "Another", Age = 55 };
             };
 
             showBtn.Clicked += async delegate {
