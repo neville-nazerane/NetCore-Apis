@@ -14,25 +14,20 @@ namespace NetCore.Apis.Client.UI
         where TModel : class, new()
     {
 
-        //private readonly List<IInputMapper> mappers;
-        private readonly Dictionary<string,PropertyInfo> properties;
+        private readonly Dictionary<string, PropertyInfo> properties;
         private readonly List<MappedContext> mappedCollection;
 
         public ModelMapper()
         {
-            //mappers = new List<IInputMapper>();
             properties = typeof(TModel).GetProperties().ToDictionary(p => p.Name);
             mappedCollection = new List<MappedContext>();
         }
 
         TModel _Model;
-        public TModel Model
+        public void SetModel(TModel value)
         {
-            set
-            {
-                _Model = value;
-                foreach (var map in mappedCollection) map.GetFrom(value);
-            }
+            _Model = value;
+            foreach (var map in mappedCollection) map.GetFrom(value);
         }
 
         public void ClearErrors()
