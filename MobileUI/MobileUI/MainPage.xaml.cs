@@ -17,7 +17,7 @@ namespace MobileUI
 		{
 			InitializeComponent();
 
-            var mapper = new ModelMapper<Employee>();
+            var mapper = new ModelHandler<Employee>();
             mapper.Bind(e => e.FirstName, firstName, fnameErr);
             mapper.Bind(e => e.LastName, lname, lnameErr);
             mapper.Bind(e => e.Age, age, ageErr);

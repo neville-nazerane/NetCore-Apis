@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace NetCore.Apis.Client.UI
 {
-    public class ModelMapper<TModel>
+    public class ModelHandler<TModel>
         where TModel : class, new()
     {
 
         private readonly Dictionary<string, PropertyInfo> properties;
         private readonly List<MappedContext> mappedCollection;
 
-        public ModelMapper()
+        public ModelHandler()
         {
             properties = typeof(TModel).GetProperties().ToDictionary(p => p.Name);
             mappedCollection = new List<MappedContext>();
@@ -68,7 +68,7 @@ namespace NetCore.Apis.Client.UI
             return isValid;
         }
 
-        public ModelMapper<TModel> Bind<T>(Expression<Func<TModel, T>> lamda, IComponentMapper<T> inputMapper)
+        public ModelHandler<TModel> Bind<T>(Expression<Func<TModel, T>> lamda, IComponentMapper<T> inputMapper)
         {
             if (lamda.Body is MemberExpression mem)
             {
