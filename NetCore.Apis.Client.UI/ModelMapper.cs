@@ -38,7 +38,7 @@ namespace NetCore.Apis.Client.UI
         /// <summary>
         /// 
         /// Tries to get all properties of the model from the UI.
-        /// If fails, prints the errors on the UI
+        /// If fails, prints the errors on the UI.
         /// 
         /// Note that even on fail, all successful properties will 
         /// stil be returned by the model object.
@@ -67,7 +67,7 @@ namespace NetCore.Apis.Client.UI
             return isValid;
         }
 
-        public void Bind<T>(Expression<Func<TModel, T>> lamda, IComponentMapper<T> inputMapper)
+        public ModelMapper<TModel> Bind<T>(Expression<Func<TModel, T>> lamda, IComponentMapper<T> inputMapper)
         {
             if (lamda.Body is MemberExpression mem)
             {
@@ -82,6 +82,7 @@ namespace NetCore.Apis.Client.UI
                 });
             }
             else throw new InvalidOperationException("Invalid lamda provided. Property is expected.");
+            return this;
         }
 
         async Task<TResponse> DoSubmitAsync<TResponse> (
