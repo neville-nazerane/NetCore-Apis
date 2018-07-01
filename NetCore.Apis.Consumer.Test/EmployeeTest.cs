@@ -18,14 +18,19 @@ namespace NetCore.Apis.Consumer.Test
         {
             var res = await Consumer.PostAsync(path, new Employee { });
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
             res = await Consumer.PostAsync(path, new Employee { FirstName = "Batman"  });
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal(HttpCalled.Success, Defaults.LastCalled);
             res = await Consumer.PostAsync(path, new Employee { FirstName = "nananananananana Batman" });
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
             res = await Consumer.PostAsync(path, new Employee { LastName = "nananananananananananananananananananananananana Batman" });
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
             res = await Consumer.PostAsync(path, null);
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
         }
 
         [Fact]
@@ -33,6 +38,7 @@ namespace NetCore.Apis.Consumer.Test
         {
             var res = await Consumer.GetAsync<Employee>($"{path}/55");
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal(HttpCalled.Success, Defaults.LastCalled);
         }
 
         [Fact]
@@ -40,6 +46,15 @@ namespace NetCore.Apis.Consumer.Test
         {
             var res = await Consumer.GetAsync($"{path}/nop");
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
+        }
+
+        [Fact]
+        public async Task NotFound()
+        {
+            var res = await Consumer.GetAsync("invalid/path");
+            Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+            Assert.Equal(HttpCalled.NotFound, Defaults.LastCalled);
         }
 
     }

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,6 +11,8 @@ namespace NetCore.Apis.Consumer
     {
         private string _bearerToken;
         private string _baseURL;
+
+        public ApiConsumerDefaults Defaults { get; set; }
 
         public HttpClient Client { get; private set; }
 
@@ -77,11 +78,23 @@ namespace NetCore.Apis.Consumer
 
         async Task<ApiConsumedResponse> DoStringAsync(Func<string, HttpContent, Task<HttpResponseMessage>> func,
                                                 string path, object obj, string BaseURL)
-                => await DoAsync(func, path, obj, BaseURL);
+        {
+            ApiConsumedResponse res = await DoAsync(func, path, obj, BaseURL);
+            await res.RunDefaults(Defaults);
+            return res;
+        }
 
         #endregion
 
         #region generic calls
+
+        async Task<ApiConsumedResponse<TModel>> DoAsync<TModel>(Func<string, HttpContent, Task<HttpResponseMessage>> func,
+                                        string path, object obj, string BaseURL)
+        {
+            ApiConsumedResponse<TModel> res = await DoAsync(func, path, obj, BaseURL);
+            await res.RunDefaults(Defaults);
+            return res;
+        }
 
         public Task<ApiConsumedResponse<TModel>> PostAsync<TModel>(string path, object obj, string BaseURL = null)
             => DoAsync<TModel>((u, c) => Client.PostAsync(u, c), path, obj, BaseURL);
@@ -94,10 +107,6 @@ namespace NetCore.Apis.Consumer
 
         public Task<ApiConsumedResponse<TModel>> DeleteAsync<TModel>(string path, string BaseURL = null)
             => DoAsync<TModel>((u, c) => Client.DeleteAsync(u), path, null, BaseURL);
-
-        async Task<ApiConsumedResponse<TModel>> DoAsync<TModel>(Func<string, HttpContent, Task<HttpResponseMessage>> func,
-                                                string path, object obj, string BaseURL)
-            => (ApiConsumedResponse<TModel>) await DoAsync(func, path, obj, BaseURL);
 
         public void Dispose() => Client.Dispose();
 

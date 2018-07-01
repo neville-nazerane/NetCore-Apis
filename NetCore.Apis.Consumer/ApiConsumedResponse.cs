@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-
+using System.Threading.Tasks;
 using static Newtonsoft.Json.JsonConvert;
 
 namespace NetCore.Apis.Consumer
@@ -40,6 +40,45 @@ namespace NetCore.Apis.Consumer
                     Errors = DeserializeObject<Dictionary<string, string[]>>(TextResponse);
                 }
                 catch (JsonReaderException) { }
+            }
+        }
+
+        internal async Task RunDefaults(ApiConsumerDefaults defaults)
+        {
+            if (defaults != null)
+            {
+                if (IsSuccessful) await defaults.OnSuccess(this);
+                else
+                {
+                    await defaults.OnFailed(this);
+                    switch (StatusCode)
+                    {
+                        case HttpStatusCode.BadRequest:
+                            await defaults.OnBadRequest(this);
+                            break;
+                        case HttpStatusCode.Forbidden:
+                            await defaults.OnForbidden(this);
+                            break;
+                        case HttpStatusCode.NotFound:
+                            await defaults.OnNotFound(this);
+                            break;
+                        case HttpStatusCode.InternalServerError:
+                            await defaults.OnInternalServerError(this);
+                            break;
+                        case HttpStatusCode.BadGateway:
+                            await defaults.OnBadGateway(this);
+                            break;
+                        case HttpStatusCode.GatewayTimeout:
+                            await defaults.OnGatewayTimeout(this);
+                            break;
+                        case HttpStatusCode.ServiceUnavailable:
+                            await defaults.OnServiceUnavailable(this);
+                            break;
+                        case HttpStatusCode.Unauthorized:
+                            await defaults.OnUnauthorized(this);
+                            break;
+                    }
+                }
             }
         }
 

@@ -8,11 +8,16 @@ namespace NetCore.Apis.Consumer.Test
     public class TesterAbstract
     {
 
+
         public ApiConsumer Consumer { get; }
+        internal TestDefaults Defaults { get;}
 
         public TesterAbstract()
         {
-            Consumer = new ApiConsumer(Constants.Urls.TestWebApi);
+            Consumer = new ApiConsumer(Constants.Urls.TestWebApi)
+            {
+                Defaults = Defaults = new TestDefaults()
+            };
         }
 
     }
