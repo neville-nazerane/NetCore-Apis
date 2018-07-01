@@ -1,5 +1,4 @@
-﻿using MobileUI.Consume;
-using MobileUI.Mapping;
+﻿using MobileUI.Mapping;
 using Models;
 using NetCore.Apis.Client.UI;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Access;
 
 namespace MobileUI
 {

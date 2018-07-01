@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MobileUI.Consume
+namespace Access
 {
-    class ConsumerDefault
+    public class ConsumerDefault
     {
 
         static ApiConsumer _Consumer;

@@ -10,12 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Access\Access.csproj" />
-    <ProjectReference Include="..\..\Constants\Constants.csproj" />
     <ProjectReference Include="..\..\Models\Models.csproj" />
-    <ProjectReference Include="..\..\NetCore.Apis.Client.UI\NetCore.Apis.Client.UI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Consume\" />
+    <ProjectReference Include="..\..\NetCore.Apis.XamarinForms\NetCore.Apis.XamarinForms.csproj" />
   </ItemGroup>
 </Project>

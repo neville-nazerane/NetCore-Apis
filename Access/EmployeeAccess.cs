@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MobileUI.Consume
+namespace Access
 {
-    class EmployeeAccess
+    public class EmployeeAccess
     {
 
         const string path = "employee";
