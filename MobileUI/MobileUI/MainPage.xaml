@@ -19,6 +19,7 @@
         <Label x:Name="display" />
         <Button x:Name="submitBtn" Text="Ok" />
         <Button x:Name="showBtn" Text="Show" />
+        <Button x:Name="invalidBtn" Text="No Errors" />
 
     </StackLayout>
 

@@ -37,6 +37,12 @@ namespace MobileUI
                 }
             };
 
+            invalidBtn.Clicked += async delegate {
+                await mapper.SubmitAsync(async e => await EmployeeAccess.GetNoErrors());
+
+                await DisplayAlert("No errors!", "See ma! no errors!!!", "Nothing is better than something");
+            };
+
 		}
 	}
 }

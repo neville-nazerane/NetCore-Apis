@@ -18,5 +18,8 @@ namespace MobileUI.Consume
         public static async Task<ApiConsumedResponse<Employee>> Get(int id)
             => await ConsumerDefault.Consumer.GetAsync<Employee>($"{path}/{id}");
 
+        public static async Task<ApiConsumedResponse> GetNoErrors()
+            => await ConsumerDefault.Consumer.GetAsync($"{path}/nop");
+
     }
 }

@@ -3,15 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>NetCore.Apis.Client.UI</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <Authors>Neville Nazerane</Authors>
     <Description>
-      Library to link consumed data from NetCore.Apis.Consumer to any UI 
+      Link consumed data from NetCore.Apis.Consumer to any UI 
     </Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>
-      - Set up mapper interface to map components to model properties
-      - Set up model handler to control all mapped properties between model and UI
+      - Checks for bad request errors before populating errors
     </PackageReleaseNotes>
     <PackageTags>netcore consume restApi UI NetCore.Apis.Consumer</PackageTags>
     <PackageProjectUrl>https://github.com/neville-nazerane/NetCore-Apis</PackageProjectUrl>
@@ -20,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetCore.Apis.Consumer" Version="1.0.2" />
+    <PackageReference Include="NetCore.Apis.Consumer" Version="1.0.5" />
   </ItemGroup>
 
 </Project>

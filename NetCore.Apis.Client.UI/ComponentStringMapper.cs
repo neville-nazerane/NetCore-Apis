@@ -5,6 +5,8 @@ using System.Text;
 
 namespace NetCore.Apis.Client.UI
 {
+
+
     public abstract class ComponentStringMapper<T> : IComponentMapper<T>
     {
 
