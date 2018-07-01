@@ -35,5 +35,12 @@ namespace NetCore.Apis.Consumer.Test
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
         }
 
+        [Fact]
+        public async Task GetNoErr()
+        {
+            var res = await Consumer.GetAsync($"{path}/nop");
+            Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+        }
+
     }
 }

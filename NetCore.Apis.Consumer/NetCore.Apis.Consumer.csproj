@@ -10,7 +10,7 @@
     </Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>
-      - Handled null validation for response implicit operators
+      - error validations
     </PackageReleaseNotes>
     <PackageTags>netcore consume restApi</PackageTags>
     <PackageProjectUrl>https://github.com/neville-nazerane/NetCore-Apis</PackageProjectUrl>

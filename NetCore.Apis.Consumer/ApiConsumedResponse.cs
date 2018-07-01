@@ -34,7 +34,13 @@ namespace NetCore.Apis.Consumer
             if (string.IsNullOrWhiteSpace(TextResponse)) return;
             if (StatusCode == HttpStatusCode.OK) Deserialize(TextResponse);
             else if (StatusCode == HttpStatusCode.BadRequest)
-                Errors = DeserializeObject<Dictionary<string, string[]>>(TextResponse);
+            {
+                try
+                {
+                    Errors = DeserializeObject<Dictionary<string, string[]>>(TextResponse);
+                }
+                catch (JsonReaderException) { }
+            }
         }
 
         public static implicit operator ApiConsumedResponse(HttpResponseMessage response)

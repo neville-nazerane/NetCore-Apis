@@ -99,7 +99,7 @@ namespace NetCore.Apis.Client.UI
             {
                 var response = await call(model);
                 if (response.IsSuccessful) onSuccess?.Invoke(response);
-                else if (response.IsBadRequest)
+                else if ((response.Errors?.Count ?? 0) == 0)
                 {
                     foreach (var map in mappedCollection)
                         if (response.Errors.ContainsKey(map.Name))

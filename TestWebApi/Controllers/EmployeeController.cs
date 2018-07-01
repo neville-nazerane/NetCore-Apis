@@ -27,5 +27,8 @@ namespace TestWebApi.Controllers
         public Employee Get(int id) => new Employee { FirstName = $"Made in {id}", LastName = "Blasted", Age = 25 };
 
 
+        [HttpGet("nop")]
+        public IActionResult Get() => BadRequest("invalid error");
+
     }
 }
