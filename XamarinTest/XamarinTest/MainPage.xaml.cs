@@ -19,7 +19,9 @@ namespace XamarinTest
             var handler = new ModelHandler<Employee>();
             handler.Bind(e => e.FirstName, fname, fnameErr);
             handler.Bind(e => e.LastName, lname);
-            handler.Bind(e => e.Age, age);
+            handler.Bind(e => e.Age, age, ageErr);
+            handler.Bind(e => e.IsDead, deadSwitch);
+            handler.Bind(e => e.ToBeFiredOn, fireDate, fireTime);
 
             postBtn.Clicked += async delegate {
                 await handler.SubmitAsync(

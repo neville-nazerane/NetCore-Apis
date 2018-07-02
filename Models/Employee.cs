@@ -15,9 +15,12 @@ namespace Models
         [MaxLength(25)]
         public string LastName { get; set; }
 
-        public int Age { get; set; }
+        [Required]
+        public int? Age { get; set; }
 
         public DateTime ToBeFiredOn { get; set; }
+
+        public bool IsDead { get; set; }
 
     }
 
