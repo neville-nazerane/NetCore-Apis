@@ -3,7 +3,7 @@
       This project is designed to provide a smooth flow from a .net core REST API to any UI such as xamarin.forms. 
       
       
- ### List of projects:
+ ### List of projects in this repo:
  
  - **Nugets**:
    - *NetCore.Apis.Consumer*: Provides a simplified way to consume REST API, especially API created using .net core. Key features include:   
