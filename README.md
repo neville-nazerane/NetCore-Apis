@@ -15,6 +15,11 @@
       2. A "ModelHandler" that maps a given model to UI components with the help of the mapper interface. This allows for a strongly typed mapping of the models and UI components. 
       3. A submit function that gets the data from all mapped components anything preset and works with "NetCore.Apis.Consumer" to check for errors (model validation) and populate errors into UI. 
     - *NetCore.Apis.XamarinForms*: Sets up mappers for common xamarin components with common data types. Key features include: 
-      1. Mapping components such as Entry, Editor, DatePicker, TimePicker and switch to data types such as string, int, int?, bool, etc.
+      1. Mapping components such as Entry, Editor, DatePicker, TimePicker and switch to data types such as string, int, int?, bool, etc. - 
+ - **Tests**:
+   - *Constants*: Stores constants such as URLs to be used across test projects
+   - *Models*: Common models to be used across test projects
+   - *TestWebApi*: A web api created on .net core to be consumed and tested bo other projects
+   - *Access*: A project that uses `NetCore.Apis.Consumer` nuget to consume the *TestWebApi*, meant for code reuse for some test projects. 
     
         
