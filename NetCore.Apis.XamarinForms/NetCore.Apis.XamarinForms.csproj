@@ -1,7 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>NetCore.Apis.XamarinForms</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Neville Nazerane</Authors>
+    <Description>
+      Mapping/binding between basic types and common xamarin.forms controls using NetCore.Apis.Client.UI
+    </Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>
+      - Mappings for string, int, double, float, DateTime and bool
+    </PackageReleaseNotes>
+    <PackageTags>netcore consume restApi xamarin.forms bind</PackageTags>
+    <PackageProjectUrl>https://github.com/neville-nazerane/NetCore-Apis</PackageProjectUrl>
+    <RootNamespace>NetCore.Apis.XamarinForms</RootNamespace>
+    <AssemblyName>NetCore.Apis.XamarinForms</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
