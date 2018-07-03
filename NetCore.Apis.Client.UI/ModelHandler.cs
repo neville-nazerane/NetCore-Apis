@@ -21,7 +21,7 @@ namespace NetCore.Apis.Client.UI
 
         private readonly Dictionary<string, PropertyInfo> properties;
         private readonly List<MappedContext> mappedCollection;
-        private readonly IErrorMapper errorMapper;
+        private  IErrorMapper errorMapper;
 
         /// <summary>
         /// Creates a new instance of a model handler
@@ -33,6 +33,12 @@ namespace NetCore.Apis.Client.UI
             mappedCollection = new List<MappedContext>();
             _Model = new TModel();
             this.errorMapper = errorMapper;
+        }
+        
+        public ModelHandler<TModel> SetErrorMapper(IErrorMapper errorMapper)
+        {
+            this.errorMapper = errorMapper;
+            return this;
         }
 
         TModel _Model;
@@ -53,7 +59,7 @@ namespace NetCore.Apis.Client.UI
         /// </summary>
         public void ClearErrors()
         {
-            errorMapper.ClearErrors();
+            errorMapper?.ClearErrors();
             foreach (var map in mappedCollection) map.Mapper.ClearErrors();
         }
 
@@ -134,7 +140,7 @@ namespace NetCore.Apis.Client.UI
                     foreach (var map in mappedCollection)
                         if (response.Errors.ContainsKey(map.Name))
                             map.Mapper.SetErrors(response.Errors[map.Name]);
-                    if (response.Errors.ContainsKey("")) errorMapper.SetErrors(response.Errors[""]);
+                    if (response.Errors.ContainsKey("")) errorMapper?.SetErrors(response.Errors[""]);
                     onBadRequest?.Invoke(response.Errors);
                 }
                 else onError?.Invoke(response);

@@ -3,15 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>NetCore.Apis.Client.UI</PackageId>
-    <PackageVersion>1.0.5</PackageVersion>
+    <PackageVersion>1.0.6</PackageVersion>
     <Authors>Neville Nazerane</Authors>
     <Description>
       Link consumed data from NetCore.Apis.Consumer to any UI 
     </Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>
-      - Added documentation
-      - Error mapper for model validation errors with no key
+      - Error mapper bug fix if mapper is null
     </PackageReleaseNotes>
     <PackageTags>netcore consume restApi UI NetCore.Apis.Consumer</PackageTags>
     <PackageProjectUrl>https://github.com/neville-nazerane/NetCore-Apis</PackageProjectUrl>
