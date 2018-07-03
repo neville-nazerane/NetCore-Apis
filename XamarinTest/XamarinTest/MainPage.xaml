@@ -4,6 +4,9 @@
              x:Class="XamarinTest.MainPage">
 
     <StackLayout>
+
+        <StackLayout x:Name="commonErr" />
+
         <Entry Placeholder="First Name" x:Name="fname" />
         <StackLayout x:Name="fnameErr" />
 

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace NetCore.Apis.XamarinForms.Mapping
 {
-    public abstract class StackErrorMapper : IErrorMapper
+    public class StackErrorMapper : IErrorMapper
     {
         private readonly StackLayout errorStack;
 

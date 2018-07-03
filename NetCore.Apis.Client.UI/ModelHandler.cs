@@ -35,6 +35,11 @@ namespace NetCore.Apis.Client.UI
             this.errorMapper = errorMapper;
         }
         
+        /// <summary>
+        /// Set the error mapper used to display errors that are not mapped to any field
+        /// </summary>
+        /// <param name="errorMapper">Configured error mapper</param>
+        /// <returns></returns>
         public ModelHandler<TModel> SetErrorMapper(IErrorMapper errorMapper)
         {
             this.errorMapper = errorMapper;

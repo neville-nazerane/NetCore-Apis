@@ -16,12 +16,13 @@ namespace XamarinTest
 		{
 			InitializeComponent();
 
-            var handler = new ModelHandler<Employee>();
-            handler.Bind(e => e.FirstName, fname, fnameErr);
-            handler.Bind(e => e.LastName, lname);
-            handler.Bind(e => e.Age, age, ageErr);
-            handler.Bind(e => e.IsDead, deadSwitch);
-            handler.Bind(e => e.ToBeFiredOn, fireDate, fireTime);
+            var handler = new ModelHandler<Employee>()
+                            .BindErrors(commonErr)
+                            .Bind(e => e.FirstName, fname, fnameErr)
+                            .Bind(e => e.LastName, lname)
+                            .Bind(e => e.Age, age, ageErr)
+                            .Bind(e => e.IsDead, deadSwitch)
+                            .Bind(e => e.ToBeFiredOn, fireDate, fireTime);
 
             postBtn.Clicked += async delegate {
                 await handler.SubmitAsync(

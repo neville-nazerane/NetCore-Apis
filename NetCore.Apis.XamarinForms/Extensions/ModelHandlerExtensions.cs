@@ -10,6 +10,10 @@ namespace NetCore.Apis.Client.UI
     public static class ModelHandlerExtensions
     {
 
+        public static ModelHandler<TModel> BindErrors<TModel>(this ModelHandler<TModel> modelHandler, StackLayout stackLayout)
+            where TModel : class, new()
+            => modelHandler.SetErrorMapper(new StackErrorMapper(stackLayout));
+
         public static ModelHandler<TModel> Bind<TModel>(this ModelHandler<TModel> modelHandler,
                         Expression<Func<TModel, string>> lamda, Entry entry, StackLayout stackLayout = null)
             where TModel : class, new()
