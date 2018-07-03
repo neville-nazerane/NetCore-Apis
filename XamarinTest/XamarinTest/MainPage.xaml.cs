@@ -31,6 +31,14 @@ namespace XamarinTest
                     );
             };
 
+            flawButton.Clicked += async delegate {
+                await handler.SubmitAsync(
+                    e => EmployeeAccess.Post(null),
+                    async s => await DisplayAlert("Success", $"Success with message {s}", "Ok"),
+                    onError: async e => await DisplayAlert("Failed", $"Failed with status: '{e.StatusCode}' and error '{e.TextResponse}'", "Cancel")
+                    );
+            };
+
         }
 	}
 }

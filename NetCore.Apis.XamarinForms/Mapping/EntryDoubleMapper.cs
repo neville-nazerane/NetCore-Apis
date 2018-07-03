@@ -25,7 +25,7 @@ namespace NetCore.Apis.XamarinForms.Mapping
             set => entry.Text = value.ToString();
         }
 
-        public override bool Validate(List<string> errors)
+        public bool Validate(List<string> errors)
         {
             if (string.IsNullOrWhiteSpace(entry.Text) || double.TryParse(entry.Text, out double d)) return true;
             errors.Add("Not in the right number format");

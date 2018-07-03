@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace NetCore.Apis.XamarinForms.Mapping
 {
-    public abstract class StackErrorMapper : IComponentMapper
+    public abstract class StackErrorMapper : IErrorMapper
     {
         private readonly StackLayout errorStack;
 
@@ -24,6 +24,6 @@ namespace NetCore.Apis.XamarinForms.Mapping
                     errorStack.Children.Add(new Label {Text = err, TextColor = Color.Red });
         }
 
-        public abstract bool Validate(List<string> errors);
+        
     }
 }

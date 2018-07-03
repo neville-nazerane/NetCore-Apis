@@ -24,6 +24,7 @@
         </StackLayout>
 
         <Button Text="Post" x:Name="postBtn" />
+        <Button Text="flaw" x:Name="flawButton" />
 
     </StackLayout>
 

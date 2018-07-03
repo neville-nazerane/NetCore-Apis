@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetCore.Apis.Client.UI" Version="1.0.1" />
+    <PackageReference Include="NetCore.Apis.Client.UI" Version="1.0.5" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.583944" />
   </ItemGroup>
 

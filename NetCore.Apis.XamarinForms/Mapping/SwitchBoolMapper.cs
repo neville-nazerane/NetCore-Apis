@@ -21,6 +21,6 @@ namespace NetCore.Apis.XamarinForms.Mapping
             set => component.IsToggled = value;
         }
 
-        public override bool Validate(List<string> errors) => true;
+        public bool Validate(List<string> errors) => true;
     }
 }

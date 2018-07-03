@@ -27,6 +27,6 @@ namespace NetCore.Apis.XamarinForms.Mapping
             }
         }
 
-        public override bool Validate(List<string> errors) => true;
+        public bool Validate(List<string> errors) => true;
     }
 }
