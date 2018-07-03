@@ -20,6 +20,9 @@
    - *Constants*: Stores constants such as URLs to be used across test projects
    - *Models*: Common models to be used across test projects
    - *TestWebApi*: A web api created on .net core to be consumed and tested bo other projects
-   - *Access*: A project that uses `NetCore.Apis.Consumer` nuget to consume the *TestWebApi*, meant for code reuse for some test projects. 
+   - *Access*: A project that uses `NetCore.Apis.Consumer` nuget to consume the *TestWebApi*, meant for code reuse for some test projects.
+   - *NetCore.Apis.Consumer.Test*: Unit testing for `NetCore.Apis.Consumer`. Directly refrences the `NetCore.Apis.Consumer` project.
+   - *MobileUI*: A xamarin forms app meant to test the `NetCore.Apis.Client.UI`. This project directly refrences the `NetCore.Apis.Client.UI` in order to test each feature. 
+   - *XamarinTest*: A xamarin forms app meant to test the `NetCore.Apis.XamarinForms`. This project directly refrences the `NetCore.Apis.XamarinForms` in order to test each feature. 
     
         
