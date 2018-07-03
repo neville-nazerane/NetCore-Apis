@@ -26,11 +26,41 @@ namespace MobileUI.Mapping
             set => entry.Text = value.ToString();
         }
 
-        public override bool Validate(List<string> errors)
+        public bool Validate(List<string> errors)
         {
             if (string.IsNullOrWhiteSpace(entry.Text) || Int32.TryParse(entry.Text, out int i)) return true;
             errors.Add("Not in the right number format");
             return false;
         }
     }
+
+
+    class IntNullMapper : StackErrorMapping, IComponentMapper<int?>
+    {
+        private readonly Entry entry;
+
+        public IntNullMapper(Entry entry, StackLayout errorContainer)
+            : base(errorContainer)
+        {
+            this.entry = entry;
+        }
+
+        public int? MappedData
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(entry.Text)) return null;
+                return int.Parse(entry.Text);
+            }
+            set => entry.Text = value.ToString();
+        }
+
+        public bool Validate(List<string> errors)
+        {
+            if (string.IsNullOrWhiteSpace(entry.Text) || int.TryParse(entry.Text, out int i)) return true;
+            errors.Add("Not in the right number format");
+            return false;
+        }
+    }
+
 }

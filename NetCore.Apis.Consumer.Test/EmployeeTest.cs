@@ -16,10 +16,13 @@ namespace NetCore.Apis.Consumer.Test
         [Fact]
         public async Task Post()
         {
-            var res = await Consumer.PostAsync(path, new Employee { });
+            var res = await Consumer.PostAsync(path, null);
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
-            res = await Consumer.PostAsync(path, new Employee { FirstName = "Batman"  });
+            res = await Consumer.PostAsync(path, new Employee { });
+            Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
+            res = await Consumer.PostAsync(path, new Employee { FirstName = "Batman" , Age = 16 });
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
             Assert.Equal(HttpCalled.Success, Defaults.LastCalled);
             res = await Consumer.PostAsync(path, new Employee { FirstName = "nananananananana Batman" });

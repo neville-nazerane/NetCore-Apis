@@ -6,6 +6,7 @@
     <StackLayout>
         <!-- Place new controls here -->
 
+        <StackLayout x:Name="commonErr"/>
 
         <Entry x:Name="firstName" Placeholder="First Name" />
         <StackLayout x:Name="fnameErr"/>
@@ -20,6 +21,7 @@
         <Button x:Name="submitBtn" Text="Ok" />
         <Button x:Name="showBtn" Text="Show" />
         <Button x:Name="invalidBtn" Text="No Errors" />
+        <Button x:Name="noDataBtn" Text="Common error" />
 
     </StackLayout>
 

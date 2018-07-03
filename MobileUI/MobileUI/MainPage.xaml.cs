@@ -17,11 +17,11 @@ namespace MobileUI
 		{
 			InitializeComponent();
 
-            var mapper = new ModelHandler<Employee>();
-            mapper.Bind(e => e.FirstName, firstName, fnameErr);
-            mapper.Bind(e => e.LastName, lname, lnameErr);
-            mapper.Bind(e => e.Age, age, ageErr);
-            mapper.Bind(e => e.ToBeFiredOn, fireDate, fireTime, dateErr);
+            var mapper = new ModelHandler<Employee>(new StackErrorMapping(commonErr))    
+                .Bind(e => e.FirstName, firstName, fnameErr)
+                .Bind(e => e.LastName, lname, lnameErr)
+                .Bind(e => e.Age, age, ageErr)
+                .Bind(e => e.ToBeFiredOn, fireDate, fireTime, dateErr);
 
             submitBtn.Clicked += async delegate {
                 await mapper.SubmitAsync(e => EmployeeAccess.Post(e), s => display.Text = s);
@@ -30,7 +30,7 @@ namespace MobileUI
             showBtn.Clicked += async delegate {
                 if (mapper.TryGetModel(out Employee emp))
                 {
-                    var employee = await EmployeeAccess.Get(emp.Age);
+                    var employee = await EmployeeAccess.Get(emp.Age ?? 0);
                     mapper.ClearErrors();
                     if (employee.IsSuccessful) mapper.SetModel(employee);
                     else await DisplayAlert("Nop", $"Something failed with the error: {employee.StatusCode}", "Oh damit!!!");
@@ -43,6 +43,10 @@ namespace MobileUI
                 await DisplayAlert("No errors!", "See ma! no errors!!!", "Nothing is better than something");
             };
 
-		}
+            noDataBtn.Clicked += async delegate {
+                await mapper.SubmitAsync(e => EmployeeAccess.Post(null), s => display.Text = s);
+            };
+
+        }
 	}
 }

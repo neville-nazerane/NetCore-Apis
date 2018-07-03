@@ -10,29 +10,50 @@ using System.Threading.Tasks;
 
 namespace NetCore.Apis.Client.UI
 {
+
+    /// <summary>
+    /// Maps a model to components and handles events such as submitting to the server and processing any output.
+    /// </summary>
+    /// <typeparam name="TModel">The type of model to be mapped/bound</typeparam>
     public class ModelHandler<TModel>
         where TModel : class, new()
     {
 
         private readonly Dictionary<string, PropertyInfo> properties;
         private readonly List<MappedContext> mappedCollection;
+        private readonly IErrorMapper errorMapper;
 
-        public ModelHandler()
+        /// <summary>
+        /// Creates a new instance of a model handler
+        /// </summary>
+        /// <param name="errorMapper">The error mapper for errors not mapped to any field</param>
+        public ModelHandler(IErrorMapper errorMapper = null)
         {
             properties = typeof(TModel).GetProperties().ToDictionary(p => p.Name);
             mappedCollection = new List<MappedContext>();
             _Model = new TModel();
+            this.errorMapper = errorMapper;
         }
 
         TModel _Model;
+
+        /// <summary>
+        /// Set a model manually to the handler. The model will be applied to all existing mappings.
+        /// The provided model is also stored in order to retain the properties that are not mapped.
+        /// </summary>
+        /// <param name="value">the model to be assigned</param>
         public void SetModel(TModel value)
         {
             _Model = value;
             foreach (var map in mappedCollection) map.GetFrom(value);
         }
 
+        /// <summary>
+        /// Calls all ClearError() methods to clear all bound errors
+        /// </summary>
         public void ClearErrors()
         {
+            errorMapper.ClearErrors();
             foreach (var map in mappedCollection) map.Mapper.ClearErrors();
         }
 
@@ -42,7 +63,8 @@ namespace NetCore.Apis.Client.UI
         /// If fails, prints the errors on the UI.
         /// 
         /// Note that even on fail, all successful properties will 
-        /// stil be returned by the model object.
+        /// stil be returned by the model object. This would also include
+        /// and properties passed in via the SetModel() function
         /// 
         /// </summary>
         /// <param name="model">Model object with all properties without errors</param>
@@ -68,6 +90,13 @@ namespace NetCore.Apis.Client.UI
             return isValid;
         }
 
+        /// <summary>
+        /// Binds a property of the model using the component mapper provided
+        /// </summary>
+        /// <typeparam name="T">type of the property to be bound</typeparam>
+        /// <param name="lamda">lamda to specify the property to be bound</param>
+        /// <param name="inputMapper">The mapper that contains the bound configuration</param>
+        /// <returns>Current object. This is meant for chaining</returns>
         public ModelHandler<TModel> Bind<T>(Expression<Func<TModel, T>> lamda, IComponentMapper<T> inputMapper)
         {
             if (lamda.Body is MemberExpression mem)
@@ -85,6 +114,7 @@ namespace NetCore.Apis.Client.UI
             else throw new InvalidOperationException("Invalid lamda provided. Property is expected.");
             return this;
         }
+        
 
         async Task<TResponse> DoSubmitAsync<TResponse> (
                 Func<TModel, Task<TResponse>> call,
@@ -104,6 +134,7 @@ namespace NetCore.Apis.Client.UI
                     foreach (var map in mappedCollection)
                         if (response.Errors.ContainsKey(map.Name))
                             map.Mapper.SetErrors(response.Errors[map.Name]);
+                    if (response.Errors.ContainsKey("")) errorMapper.SetErrors(response.Errors[""]);
                     onBadRequest?.Invoke(response.Errors);
                 }
                 else onError?.Invoke(response);

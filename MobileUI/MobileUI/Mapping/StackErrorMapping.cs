@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace MobileUI.Mapping
 {
-    abstract class StackErrorMapping : IComponentMapper
+    class StackErrorMapping : IErrorMapper
     {
         private readonly StackLayout errorContainer;
 
@@ -26,7 +26,6 @@ namespace MobileUI.Mapping
         }
 
         public void ClearErrors() => errorContainer.Children.Clear();
-
-        public abstract bool Validate(List<string> errors);
+        
     }
 }

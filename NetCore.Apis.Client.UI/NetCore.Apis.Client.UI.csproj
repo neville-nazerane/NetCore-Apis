@@ -3,14 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>NetCore.Apis.Client.UI</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.5</PackageVersion>
     <Authors>Neville Nazerane</Authors>
     <Description>
       Link consumed data from NetCore.Apis.Consumer to any UI 
     </Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>
-      - Checks for bad request errors before populating errors
+      - Added documentation
+      - Error mapper for model validation errors with no key
     </PackageReleaseNotes>
     <PackageTags>netcore consume restApi UI NetCore.Apis.Consumer</PackageTags>
     <PackageProjectUrl>https://github.com/neville-nazerane/NetCore-Apis</PackageProjectUrl>

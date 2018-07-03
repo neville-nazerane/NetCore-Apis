@@ -35,7 +35,7 @@ namespace MobileUI.Mapping
             {
             }
 
-            public override bool Validate(List<string> errors) => true;
+            public bool Validate(List<string> errors) => true;
         }
 
     }
