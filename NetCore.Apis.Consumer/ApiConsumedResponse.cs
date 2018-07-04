@@ -9,19 +9,43 @@ using static Newtonsoft.Json.JsonConvert;
 
 namespace NetCore.Apis.Consumer
 {
+
+    /// <summary>
+    /// A wrapper class around HttpResponseMessage with easier access to the response
+    /// </summary>
     public class ApiConsumedResponse
     {
 
+        /// <summary>
+        /// Basically returns the IsSuccessStatusCode property of the HttpResponseMessage. 
+        /// Returns true if the response code is between 200-299
+        /// </summary>
         public bool IsSuccessful => Response.IsSuccessStatusCode;
 
+        /// <summary>
+        /// Returns true if status code was BadRequest (400)
+        /// </summary>
         public bool IsBadRequest => Response.StatusCode == HttpStatusCode.BadRequest;
 
+        /// <summary>
+        /// The HttpResponseMessage object that has been wrapped
+        /// </summary>
         public HttpResponseMessage Response { get; private set; }
 
+        /// <summary>
+        /// List of errors if the status code was 400 and the response was 
+        /// serializable into Dictionary<string, string[]>
+        /// </summary>
         public Dictionary<string, string[]> Errors { get; set; }
         
+        /// <summary>
+        /// The response recieved in text format
+        /// </summary>
         public string TextResponse { get; }
 
+        /// <summary>
+        /// Gets the status code of the HTTP response
+        /// </summary>
         public HttpStatusCode StatusCode => Response.StatusCode;
 
         internal ApiConsumedResponse(HttpResponseMessage Response)
@@ -39,7 +63,7 @@ namespace NetCore.Apis.Consumer
                 {
                     Errors = DeserializeObject<Dictionary<string, string[]>>(TextResponse);
                 }
-                catch (JsonReaderException) { }
+                catch (Exception) { }
             }
         }
 
@@ -91,6 +115,11 @@ namespace NetCore.Apis.Consumer
 
     }
 
+    /// <summary>
+    /// A generic ApiConsumedResponse that serializes the response 
+    /// to a generic TModel on success
+    /// </summary>
+    /// <typeparam name="TModel">The type the response is expected in</typeparam>
     public class ApiConsumedResponse<TModel> : ApiConsumedResponse
     {
 
@@ -98,6 +127,9 @@ namespace NetCore.Apis.Consumer
         {
         }
 
+        /// <summary>
+        /// The serialized response from body
+        /// </summary>
         public TModel Data { get; private set; }
 
         public static implicit operator TModel(ApiConsumedResponse<TModel> model) 

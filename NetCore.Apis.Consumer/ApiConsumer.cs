@@ -7,15 +7,30 @@ using System.Threading.Tasks;
 
 namespace NetCore.Apis.Consumer
 {
+
+    /// <summary>
+    /// A wrapper around HttpClient, designed to simplify consuming an API
+    /// </summary>
     public class ApiConsumer : IDisposable
     {
         private string _bearerToken;
         private string _baseURL;
 
+        /// <summary>
+        /// The default functionality assigned to this consumer
+        /// </summary>
         public ApiConsumerDefaults Defaults { get; set; }
 
+        /// <summary>
+        /// The HttpClient the current object is wrapped around.
+        /// This can be used to access advanced features not 
+        /// currently present in ApiConsumer
+        /// </summary>
         public HttpClient Client { get; private set; }
 
+        /// <summary>
+        /// The base url of the REST API 
+        /// </summary>
         public string BaseURL
         {
             get => _baseURL;
@@ -26,8 +41,15 @@ namespace NetCore.Apis.Consumer
             }
         }
 
+        /// <summary>
+        /// A default ending url. This can be used to assign any URL parameters that need to be 
+        /// passed on every request
+        /// </summary>
         public string EndingURL { get; set; }
 
+        /// <summary>
+        /// A JWT token to be set as the authentication header
+        /// </summary>
         public string BearerToken
         {
             get => _bearerToken;
@@ -40,6 +62,14 @@ namespace NetCore.Apis.Consumer
             }
         }
 
+        /// <summary>
+        /// Creates a new instance of ApiConsumer, also creating a new instance of HttpClient
+        /// </summary>
+        /// <param name="BaseURL">The base url of the api
+        /// </param>
+        /// <param name="MaxResponseContentBufferSize">
+        /// the maximum number of bytes to buffer when reading the response content
+        /// </param>
         public ApiConsumer(string BaseURL, long MaxResponseContentBufferSize = 256000)
         {
             Client = new HttpClient
@@ -49,6 +79,7 @@ namespace NetCore.Apis.Consumer
             this.BaseURL = BaseURL;
             EndingURL = string.Empty;
         }
+
 
         public static implicit operator ApiConsumer(string URL) => new ApiConsumer(URL);
         
@@ -63,6 +94,7 @@ namespace NetCore.Apis.Consumer
         }
         
         #region string calls
+
 
         public Task<ApiConsumedResponse> PostAsync(string path, object obj, string BaseURL = null)
             => DoStringAsync((u, c) => Client.PostAsync(u, c), path, obj, BaseURL);
@@ -108,6 +140,9 @@ namespace NetCore.Apis.Consumer
         public Task<ApiConsumedResponse<TModel>> DeleteAsync<TModel>(string path, string BaseURL = null)
             => DoAsync<TModel>((u, c) => Client.DeleteAsync(u), path, null, BaseURL);
 
+        /// <summary>
+        /// Disposes the HttpClient object
+        /// </summary>
         public void Dispose() => Client.Dispose();
 
         #endregion

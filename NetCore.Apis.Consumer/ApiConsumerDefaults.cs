@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace NetCore.Apis.Consumer
 {
+
+    /// <summary>
+    /// The default setup that can be assigned to an ApiConsumer
+    /// </summary>
     public abstract class ApiConsumerDefaults
     {
 
