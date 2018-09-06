@@ -3,15 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>NetCore.Apis.Consumer</PackageId>
-    <PackageVersion>1.0.6</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Authors>Neville Nazerane</Authors>
     <Description>
       Helper to consume rest API set up on .net core. 
     </Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>
-      - bug fix when invalid json is sent on 400
-      - Added Documentation
+      - Added ApiConsumedResponseProvider class that implicitly converts to consumed response
+      - HTTP functions return the provider
     </PackageReleaseNotes>
     <PackageTags>netcore consume restApi</PackageTags>
     <PackageProjectUrl>https://github.com/neville-nazerane/NetCore-Apis</PackageProjectUrl>

@@ -63,51 +63,13 @@ namespace NetCore.Apis.Consumer
                 {
                     Errors = DeserializeObject<Dictionary<string, string[]>>(TextResponse);
                 }
-                catch (Exception) { }
+                catch { }
             }
         }
 
-        internal async Task RunDefaults(ApiConsumerDefaults defaults)
-        {
-            if (defaults != null)
-            {
-                if (IsSuccessful) await defaults.OnSuccess(this);
-                else
-                {
-                    await defaults.OnFailed(this);
-                    switch (StatusCode)
-                    {
-                        case HttpStatusCode.BadRequest:
-                            await defaults.OnBadRequest(this);
-                            break;
-                        case HttpStatusCode.Forbidden:
-                            await defaults.OnForbidden(this);
-                            break;
-                        case HttpStatusCode.NotFound:
-                            await defaults.OnNotFound(this);
-                            break;
-                        case HttpStatusCode.InternalServerError:
-                            await defaults.OnInternalServerError(this);
-                            break;
-                        case HttpStatusCode.BadGateway:
-                            await defaults.OnBadGateway(this);
-                            break;
-                        case HttpStatusCode.GatewayTimeout:
-                            await defaults.OnGatewayTimeout(this);
-                            break;
-                        case HttpStatusCode.ServiceUnavailable:
-                            await defaults.OnServiceUnavailable(this);
-                            break;
-                        case HttpStatusCode.Unauthorized:
-                            await defaults.OnUnauthorized(this);
-                            break;
-                    }
-                }
-            }
-        }
+        public static implicit operator ApiConsumedResponse(HttpResponseMessage response) => new ApiConsumedResponse(response);
 
-        public static implicit operator ApiConsumedResponse(HttpResponseMessage response)
-            => new ApiConsumedResponse(response);
+        public static implicit operator ApiConsumedResponse(ApiConsumedResponseProvider provider) => provider.response;
 
         public static implicit operator string(ApiConsumedResponse response) => response?.TextResponse;
 
@@ -136,6 +98,8 @@ namespace NetCore.Apis.Consumer
                 => model == null ? default(TModel) : model.Data;
 
         public static implicit operator ApiConsumedResponse<TModel>(HttpResponseMessage response) => new ApiConsumedResponse<TModel>(response);
+
+        public static implicit operator ApiConsumedResponse<TModel>(ApiConsumedResponseProvider provider) => provider.response;
 
         internal override void Deserialize(string text) => Data = DeserializeObject<TModel>(TextResponse);
 

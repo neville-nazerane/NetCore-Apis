@@ -96,25 +96,41 @@ namespace NetCore.Apis.Consumer
         #region string calls
 
 
-        public Task<ApiConsumedResponse> PostAsync(string path, object obj, string BaseURL = null)
-            => DoStringAsync((u, c) => Client.PostAsync(u, c), path, obj, BaseURL);
+        public async Task<ApiConsumedResponseProvider> PostAsync(string path, object obj, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.PostAsync(u, c), path, obj, BaseURL);
 
-        public Task<ApiConsumedResponse> PutAsync(string path, object obj, string BaseURL = null)
-            => DoStringAsync((u, c) => Client.PutAsync(u, c), path, obj, BaseURL);
+        public async Task<ApiConsumedResponseProvider> PutAsync(string path, object obj, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.PutAsync(u, c), path, obj, BaseURL);
 
-        public Task<ApiConsumedResponse> GetAsync(string path, string BaseURL = null)
-            => DoStringAsync((u, c) => Client.GetAsync(u), path, null, BaseURL);
+        public async Task<ApiConsumedResponseProvider> GetAsync(string path, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.GetAsync(u), path, null, BaseURL);
 
-        public Task<ApiConsumedResponse> DeleteAsync(string path, string BaseURL = null)
-            => DoStringAsync((u, c) => Client.DeleteAsync(u), path, null, BaseURL);
+        public async Task<ApiConsumedResponseProvider> DeleteAsync(string path, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.DeleteAsync(u), path, null, BaseURL);
 
-        async Task<ApiConsumedResponse> DoStringAsync(Func<string, HttpContent, Task<HttpResponseMessage>> func,
+        async Task<ApiConsumedResponseProvider> DoStringAsync(Func<string, HttpContent, Task<HttpResponseMessage>> func,
                                                 string path, object obj, string BaseURL)
         {
-            ApiConsumedResponse res = await DoAsync(func, path, obj, BaseURL);
+            var res = new ApiConsumedResponseProvider(await DoAsync(func, path, obj, BaseURL));
             await res.RunDefaults(Defaults);
             return res;
         }
+
+        #endregion
+
+        #region build calls 
+
+        public async Task<ApiConsumedResponse> PostBuiltAsync(string path, object obj, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.PostAsync(u, c), path, obj, BaseURL);
+
+        public async Task<ApiConsumedResponse> PutBuiltAsync(string path, object obj, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.PutAsync(u, c), path, obj, BaseURL);
+
+        public async Task<ApiConsumedResponse> GetBuiltAsync(string path, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.GetAsync(u), path, null, BaseURL);
+
+        public async Task<ApiConsumedResponse> DeleteBuiltAsync(string path, string BaseURL = null)
+            => await DoStringAsync((u, c) => Client.DeleteAsync(u), path, null, BaseURL);
 
         #endregion
 
@@ -123,7 +139,7 @@ namespace NetCore.Apis.Consumer
         async Task<ApiConsumedResponse<TModel>> DoAsync<TModel>(Func<string, HttpContent, Task<HttpResponseMessage>> func,
                                         string path, object obj, string BaseURL)
         {
-            ApiConsumedResponse<TModel> res = await DoAsync(func, path, obj, BaseURL);
+            var res = new ApiConsumedResponseProvider(await DoAsync(func, path, obj, BaseURL));
             await res.RunDefaults(Defaults);
             return res;
         }

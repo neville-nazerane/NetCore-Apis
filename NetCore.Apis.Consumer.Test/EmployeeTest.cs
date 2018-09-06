@@ -16,7 +16,7 @@ namespace NetCore.Apis.Consumer.Test
         [Fact]
         public async Task Post()
         {
-            var res = await Consumer.PostAsync(path, null);
+            var res = await Consumer.PostBuiltAsync(path, null);
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
             res = await Consumer.PostAsync(path, new Employee { });
@@ -47,7 +47,7 @@ namespace NetCore.Apis.Consumer.Test
         [Fact]
         public async Task GetNoErr()
         {
-            var res = await Consumer.GetAsync($"{path}/nop");
+            var res = await Consumer.GetBuiltAsync($"{path}/nop");
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
         }
@@ -55,7 +55,7 @@ namespace NetCore.Apis.Consumer.Test
         [Fact]
         public async Task NotFound()
         {
-            var res = await Consumer.GetAsync("invalid/path");
+            var res = await Consumer.GetBuiltAsync("invalid/path");
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
             Assert.Equal(HttpCalled.NotFound, Defaults.LastCalled);
         }
