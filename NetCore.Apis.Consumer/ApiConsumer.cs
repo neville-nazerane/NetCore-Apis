@@ -71,15 +71,19 @@ namespace NetCore.Apis.Consumer
         /// the maximum number of bytes to buffer when reading the response content
         /// </param>
         public ApiConsumer(string BaseURL, long MaxResponseContentBufferSize = 256000)
-        {
-            Client = new HttpClient
+            : this(new HttpClient
             {
-                MaxResponseContentBufferSize = MaxResponseContentBufferSize
-            };
-            this.BaseURL = BaseURL;
+                MaxResponseContentBufferSize = MaxResponseContentBufferSize,
+                BaseAddress = new Uri(BaseURL)
+            })
+        { }
+
+        public ApiConsumer(HttpClient client)
+        {
+            Client = client;
+            _baseURL = client.BaseAddress.AbsoluteUri;
             EndingURL = string.Empty;
         }
-
 
         public static implicit operator ApiConsumer(string URL) => new ApiConsumer(URL);
         
