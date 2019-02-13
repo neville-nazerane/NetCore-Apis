@@ -29,6 +29,14 @@ namespace NetCore.Apis.Consumer
         public HttpClient Client { get; private set; }
 
         /// <summary>
+        /// The version of .net core API being consumed. Needs to be 
+        /// the highest value that is closest to the API version.
+        /// If the API is not .net core, None can be selected.
+        /// If nothing is selected, every version will be tried (will be a lot heavier).
+        /// </summary>
+        public ApiVersion ApiVersion { get; set; }
+
+        /// <summary>
         /// The base url of the REST API 
         /// </summary>
         public string BaseURL
@@ -90,7 +98,6 @@ namespace NetCore.Apis.Consumer
         async Task<HttpResponseMessage> DoAsync(Func<string, HttpContent, Task<HttpResponseMessage>> func,
                                                 string path, object obj, string BaseURL)
         {
-            if (BaseURL == null) BaseURL = this.BaseURL;
             var json = JsonConvert.SerializeObject(obj);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var result = await func(path + EndingURL, content);
@@ -115,7 +122,7 @@ namespace NetCore.Apis.Consumer
         async Task<ApiConsumedResponseProvider> DoStringAsync(Func<string, HttpContent, Task<HttpResponseMessage>> func,
                                                 string path, object obj, string BaseURL)
         {
-            var res = new ApiConsumedResponseProvider(await DoAsync(func, path, obj, BaseURL));
+            var res = new ApiConsumedResponseProvider(await DoAsync(func, path, obj, BaseURL), ApiVersion);
             await res.RunDefaults(Defaults);
             return res;
         }
@@ -143,7 +150,7 @@ namespace NetCore.Apis.Consumer
         async Task<ApiConsumedResponse<TModel>> DoAsync<TModel>(Func<string, HttpContent, Task<HttpResponseMessage>> func,
                                         string path, object obj, string BaseURL)
         {
-            var res = new ApiConsumedResponseProvider(await DoAsync(func, path, obj, BaseURL));
+            var res = new ApiConsumedResponseProvider(await DoAsync(func, path, obj, BaseURL), ApiVersion);
             await res.RunDefaults(Defaults);
             return res;
         }

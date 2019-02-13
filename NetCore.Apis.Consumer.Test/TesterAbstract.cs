@@ -16,7 +16,8 @@ namespace NetCore.Apis.Consumer.Test
         {
             Consumer = new ApiConsumer(Constants.Urls.TestWebApi)
             {
-                Defaults = Defaults = new TestDefaults()
+                Defaults = Defaults = new TestDefaults(),
+                ApiVersion = ApiVersion.Version_2_2
             };
         }
 

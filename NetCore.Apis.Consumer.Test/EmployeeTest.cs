@@ -19,6 +19,7 @@ namespace NetCore.Apis.Consumer.Test
             var res = await Consumer.PostBuiltAsync(path, null);
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);
+            Assert.NotEmpty(res.Errors);
             res = await Consumer.PostAsync(path, new Employee { });
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal(HttpCalled.BadRequest, Defaults.LastCalled);

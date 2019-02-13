@@ -14,10 +14,13 @@ namespace NetCore.Apis.Consumer
     {
         internal readonly HttpResponseMessage response;
 
-        internal ApiConsumedResponseProvider(HttpResponseMessage Response)
+        internal ApiConsumedResponseProvider(HttpResponseMessage Response, ApiVersion apiVersion)
         {
             response = Response;
+            ApiVersion = apiVersion;
         }
+
+        public ApiVersion ApiVersion { get; }
 
         public ApiConsumedResponse Build() => this;
 

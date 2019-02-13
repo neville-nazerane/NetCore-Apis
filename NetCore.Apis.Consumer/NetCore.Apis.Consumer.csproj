@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>NetCore.Apis.Consumer</PackageId>
-    <PackageVersion>1.1.1</PackageVersion>
+    <PackageVersion>1.2.0</PackageVersion>
     <Authors>Neville Nazerane</Authors>
     <Description>
       Helper to consume rest API set up on .net core. 
     </Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>
-      - Added overload to create api consumer with httpclient
+      - Added compatibility and optimization for the different .net core versions
     </PackageReleaseNotes>
     <PackageTags>netcore consume restApi</PackageTags>
     <PackageProjectUrl>https://github.com/neville-nazerane/NetCore-Apis</PackageProjectUrl>

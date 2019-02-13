@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using NetCore.Apis.Consumer.InternalModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -33,11 +34,21 @@ namespace NetCore.Apis.Consumer
         public HttpResponseMessage Response { get; private set; }
 
         /// <summary>
+        /// The version of .net core API being consumed. Needs to be 
+        /// the highest value that is closest to the API version.
+        /// If the API is not .net core, None can be selected.
+        /// If nothing is selected, every version will be tried (will be a lot heavier).
+        /// </summary>
+        public ApiVersion ApiVersion { get; set; }
+
+        /// <summary>
         /// List of errors if the status code was 400 and the response was 
         /// serializable into Dictionary<string, string[]>
         /// </summary>
         public Dictionary<string, string[]> Errors { get; set; }
-        
+
+        public ErrorMeta ErrorMeta { get; internal set; }
+
         /// <summary>
         /// The response recieved in text format
         /// </summary>
@@ -59,17 +70,58 @@ namespace NetCore.Apis.Consumer
             if (StatusCode == HttpStatusCode.OK) Deserialize(TextResponse);
             else if (StatusCode == HttpStatusCode.BadRequest)
             {
-                try
+                switch (ApiVersion)
                 {
-                    Errors = DeserializeObject<Dictionary<string, string[]>>(TextResponse);
+                    case ApiVersion.None:
+                        break;
+                    case ApiVersion.Version_2_1:
+                        FormatToError2_1(TextResponse);
+                        break;
+                    case ApiVersion.Version_2_2:
+                        FormatToError2_2(TextResponse);
+                        break;
+                    case ApiVersion.Default:
+                        try
+                        {
+                            FormatToError2_2(TextResponse);
+                        }
+                        catch
+                        {
+                            try
+                            {
+                                FormatToError2_1(TextResponse);
+                            }
+                            catch { }
+                        }
+                        break;
                 }
-                catch { }
             }
+        }
+
+        void FormatToError2_2(string text)
+        {
+            var values = DeserializeObject<ErrorFormat2_2>(text);
+            Errors = values.Errors;
+            ErrorMeta = new ErrorMeta
+            {
+                Title = values.Title,
+                TraceId = values.TraceId
+            };
+        }
+
+        void FormatToError2_1(string text)
+        {
+            Errors = DeserializeObject<Dictionary<string, string[]>>(text);
         }
 
         public static implicit operator ApiConsumedResponse(HttpResponseMessage response) => new ApiConsumedResponse(response);
 
-        public static implicit operator ApiConsumedResponse(ApiConsumedResponseProvider provider) => provider.response;
+        public static implicit operator ApiConsumedResponse(ApiConsumedResponseProvider provider)
+        {
+            ApiConsumedResponse res = provider.response;
+            res.ApiVersion = provider.ApiVersion;
+            return res;
+        }
 
         public static implicit operator string(ApiConsumedResponse response) => response?.TextResponse;
 
@@ -99,7 +151,12 @@ namespace NetCore.Apis.Consumer
 
         public static implicit operator ApiConsumedResponse<TModel>(HttpResponseMessage response) => new ApiConsumedResponse<TModel>(response);
 
-        public static implicit operator ApiConsumedResponse<TModel>(ApiConsumedResponseProvider provider) => provider.response;
+        public static implicit operator ApiConsumedResponse<TModel>(ApiConsumedResponseProvider provider)
+        {
+            ApiConsumedResponse<TModel>  res = provider.response;
+            res.ApiVersion = provider.ApiVersion;
+            return res;
+        }
 
         internal override void Deserialize(string text) => Data = DeserializeObject<TModel>(TextResponse);
 
